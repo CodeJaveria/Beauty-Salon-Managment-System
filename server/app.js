@@ -1,25 +1,26 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config'); // './config' kyunke dono same folder mein hain
-require('dotenv').config({ path: '../.env' }); // '../.env' kyunke .env bahar wale folder mein hai
+const connectDB = require('./config'); 
+require('dotenv').config({ path: '../.env' }); 
 
 const app = express();
 
-// Database connection call
+// 1. Pehle Database connect karein
 connectDB();
 
-// Middlewares
+// 2. Phir Middlewares (Ye routes se pehle hone chahiye!)
 app.use(cors());
-app.use(express.json()); // Frontend se data receive karne ke liye zaroori hai
+app.use(express.json()); 
 
-// Test Route (Sirf check karne ke liye ke API chal rahi hai)
+// 3. Phir Routes (Ab ye JSON data ko sahi se handle kar sakenge)
+app.use('/api/auth', require('./routes/authRoutes'));
+
+// 4. Test Route
 app.get('/', (req, res) => {
     res.send("Beauty Salon Management System API is running... ✨");
 });
 
-// Port setting
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT} 🚀`);
 });
